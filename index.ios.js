@@ -4,19 +4,20 @@
  */
 
 'use strict';
+
+// react
 import React, {
  AppRegistry,
- Component,
- StyleSheet,
- Text,
- View,
- TouchableHighlight,
+ Component
 } from 'react-native';
 
+// redux
 import { createStore } from 'redux'
-import { connect } from 'react-redux';
-import Counter from './app/CounterComponent'
-import { Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
+
+// custom
+import Counter from './app/components/CounterComponent'
+
 
 const initialState = { counterValue: 0 };
 

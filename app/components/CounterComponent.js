@@ -1,6 +1,7 @@
 'use strict';
+
+// react components
 import React, {
-  AppRegistry,
   Component,
   StyleSheet,
   Text,
@@ -8,8 +9,12 @@ import React, {
   TouchableHighlight,
 } from 'react-native';
 
+// redux
 import { createStore } from 'redux'
 import { connect } from 'react-redux';
+
+// actions
+import { increment, decrement } from '../actions/counter.actions';
 
 class Counter extends Component {
 
@@ -35,16 +40,15 @@ class Counter extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-     increment: () => {
-      //  dispatch(setVisibilityFilte.filter))
+    increment: () => {
       console.log('dispatch increment');
-      dispatch({ type: 'INCREMENT' });
+      dispatch( increment() );
     },
     decrement: () => {
       console.log('dispatch decrement');
-      dispatch({ type: 'DECREMENT' });
+      dispatch( decrement() );
     }
-   }
+  }
 }
 
 export default connect(
