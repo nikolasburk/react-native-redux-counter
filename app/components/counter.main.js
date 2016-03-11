@@ -14,23 +14,23 @@ import { createStore } from 'redux'
 import { connect } from 'react-redux';
 
 // actions
-import { increment, decrement } from '../actions/counter.actions';
+import { increment, decrement, increase, decrease } from '../actions/counter.actions';
 
 class Counter extends Component {
 
   constructor(props) {
     super(props);
-    console.log('initialized counter with props: ', props);
+    console.log('Counter - initialized with props: ', props);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={this.props.increment.bind(this)}>
+        <TouchableHighlight onPress={this.props.increase.bind(this, +this.props.inputValue)}>
           <Text style={styles.buttons}>+</Text>
         </TouchableHighlight>
         <Text style={styles.main}>{this.props.displayCount}</Text>
-        <TouchableHighlight onPress={this.props.decrement}>
+        <TouchableHighlight onPress={this.props.decrease.bind(this, +this.props.inputValue)}>
           <Text style={styles.buttons}>-</Text>
         </TouchableHighlight>
       </View>
@@ -38,25 +38,36 @@ class Counter extends Component {
   }
 }
 
+const mapReduxStoreToProps = (reduxStore) => {
+  return {
+    displayCount: reduxStore.counterValue
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
+  console.log('Counter - mapDispatchToProps: ', this.props);
   return {
     increment: () => {
-      console.log('dispatch increment');
+      console.log('Counter - dispatch increment');
       dispatch( increment() );
     },
     decrement: () => {
-      console.log('dispatch decrement');
+      console.log('Counter - dispatch decrement');
       dispatch( decrement() );
+    },
+    increase: (inputValue) => {
+      console.log('Counter - dispatch increase: ' + inputValue);
+      dispatch( increase(inputValue) );
+    },
+    decrease: (inputValue) => {
+      console.log('Counter - dispatch decrease: ' + inputValue);
+      dispatch( decrease(inputValue) );
     }
   }
 }
 
 export default connect(
-  (reduxStore) => {
-    return {
-      displayCount: reduxStore.counterValue,
-    }
-  },
+  mapReduxStoreToProps,
   mapDispatchToProps
 )(Counter);
 
@@ -66,15 +77,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   buttons: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    borderColor: 'black',
+    borderWidth: 1
   },
   main: {
     fontSize: 50,
-    marginBottom: 5,
+    backgroundColor: 'green'
   },
 });

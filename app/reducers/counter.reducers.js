@@ -1,7 +1,9 @@
-const initialState = { counterValue: 0 };
 
-const counterReducer = (state = initialState, action) => {
-  console.log('calling root reducer: ', action);
+export const initialState = { counterValue: 0 };
+
+export const counterReducer = (state = initialState, action) => {
+  console.log('counterReducer - calling root reducer: ', action);
+  console.log('counterReducer - current state: ', state);
   switch (action.type) {
     case 'INCREMENT':
       return {
@@ -27,3 +29,5 @@ const counterReducer = (state = initialState, action) => {
       return state;
   }
 }
+
+export default counterReducer

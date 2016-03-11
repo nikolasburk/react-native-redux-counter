@@ -8,51 +8,60 @@
 // react
 import React, {
  AppRegistry,
- Component
+ Component,
+ View, Text,
+ TextInput,
+ StyleSheet
 } from 'react-native';
 
 // redux
 import { createStore } from 'redux'
-import { connect, Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux'
 
 // custom
-import Counter from './app/components/CounterComponent'
+import counterReducer from './app/reducers/counter.reducers'
+import ControlHeader from './app/components/counter.control'
+import Counter from './app/components/counter.main'
 
-
-const initialState = { counterValue: 0 };
-
-const counterReducer = (state = initialState, action) => {
-  console.log('calling root reducer: ', action);
-  switch (action.type) {
-    case 'INCREMENT':
-      return {
-      ...state,
-      counterValue: state.counterValue + 1
-      };
-    case 'DECREMENT':
-      return {
-      ...state,
-      counterValue: state.counterValue - 1
-      };
-    default:
-      return state;
-  }
-}
 
 // initialize redux store
 const store = createStore(counterReducer)
-store.dispatch({ type: 'INCREMENT' })
 
+// root component
 class CounterApp extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { inputValue: '10' };
+    console.log('CounterApp - did set initial state: ', this.state);
+  }
+
+  inputValueUpdate(text) {
+    console.log('CounterApp - inputValueUpdate: ', text);
+    this.setState({ inputValue: text });
+  }
+
   render() {
+    console.log('CounterApp - render input box with state: ', this.state);
     return (
       <Provider store={store}>
-        <Counter />
+        <View style={styles.rootContainer}>
+          <ControlHeader inputValue={this.state.inputValue} inputValueUpdate={this.inputValueUpdate.bind(this)} />
+          <Counter inputValue={this.state.inputValue} />
+        </View>
       </Provider>
     )
   }
 }
+
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    margin: 25,
+    flexDirection: 'column'
+  }
+});
 
 
 AppRegistry.registerComponent('Counter', () => CounterApp);
